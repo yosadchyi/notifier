@@ -20,7 +20,7 @@ const (
 	intervalHelp = "-i, --interval=5s Notification interval"
 )
 
-var url = flag.String("url", "http://localhost:8080/notify", "URL to post messages to, required")
+var url = flag.String("url", "", "URL to post messages to, required")
 var intervalStr = flag.String("interval", "5s", intervalHelp)
 
 func init() {
@@ -30,6 +30,9 @@ func init() {
 func main() {
 	flag.Parse()
 
+	if url == nil || *url == "" {
+		log.Fatalf("URL is required, please provide valid value")
+	}
 	interval, err := time.ParseDuration(*intervalStr)
 	if err != nil {
 		log.Fatalf("Bad value for interval %s, please specify valid duration", *intervalStr)
